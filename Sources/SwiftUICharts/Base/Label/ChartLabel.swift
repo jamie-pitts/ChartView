@@ -151,7 +151,6 @@ public struct ChartLabel: View {
           .foregroundColor(self.labelColor)
           .padding(self.labelPadding)
           .minimumScaleFactor(0.7)
-        Spacer()
       } else if format == "RHR" {
         VStack(alignment: .leading) {
           Group{

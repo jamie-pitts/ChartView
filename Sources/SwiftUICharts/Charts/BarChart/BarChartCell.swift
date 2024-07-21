@@ -60,8 +60,15 @@ public struct BarChartCell: View {
           }
           .transition(.slide)
           .animation(Animation.spring().delay(self.touchLocation < 0 || !didCellAppear ? Double(self.index) * 0.04 : 0))
-        Text(String(label))
-          .font(.caption)
+          if #available(macOS 11.0, *) {
+              Text(String(label))
+                  .font(.caption2)
+                  .rotationEffect(Angle(degrees: 270))
+          } else {
+              Text(String(label))
+                  .font(.caption)
+                  .rotationEffect(Angle(degrees: 270))
+          }
         // https://stackoverflow.com/a/63746977/14414215
         //        .overlay(Rectangle().frame(width:20 , height: 1, alignment: .top).foregroundColor(zeroValueColor), alignment: .top)
       }
