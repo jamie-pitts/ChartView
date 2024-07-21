@@ -68,12 +68,14 @@ public struct BarChartCell: View {
                           .font(.caption2)
                           .rotationEffect(Angle(degrees: 270))
                           .lineLimit(1)
+                          .fixedSize(horizontal: false, vertical: true)
                           .frame(height: geometry.size.height * 0.5)
                   } else {
                       Text(String(label))
                           .font(.caption)
                           .rotationEffect(Angle(degrees: 270))
                           .lineLimit(1)
+                          .fixedSize(horizontal: false, vertical: true)
                           .frame(height: geometry.size.height * 0.5)
                   }
                   // https://stackoverflow.com/a/63746977/14414215
