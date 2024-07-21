@@ -40,16 +40,18 @@ public struct BarChartCell: View {
     let zeroValueColor: Color = colorScheme == .dark ? Color.white : Color.black
 
     ZStack {
-      VStack (spacing:0){
-        let valueTarget = data.pointsTarget.count > 0 ? data.normalisedPointsTarget[index] : 0
-        
-        BarChartCellShape(value: didCellAppear ? valueTarget : 0.0, cornerRadius: 2)
-          .fill( gradientColor.linearGradient(from: .bottom, to: .top))
-          .opacity(0.3)
-        Text("")
-      }
+        if (data.pointsTarget.count > 0) {
+            VStack (spacing:0){
+                let valueTarget = data.pointsTarget.count > 0 ? data.normalisedPointsTarget[index] : 0
+                
+                BarChartCellShape(value: didCellAppear ? valueTarget : 0.0, cornerRadius: 2)
+                    .fill( gradientColor.linearGradient(from: .bottom, to: .top))
+                    .opacity(0.3)
+                Text("")
+            }
+        }
       
-      VStack (spacing:0){
+        VStack(alignment: .center, spacing:0) {
         BarChartCellShape(value: didCellAppear ? value : 0.0, cornerRadius: 2)
           .fill(value == 0 ? LinearGradient(colors: [zeroValueColor], startPoint: .bottom, endPoint: .top) :  gradientColor.linearGradient(from: .bottom, to: .top))
           .onAppear {
@@ -64,10 +66,12 @@ public struct BarChartCell: View {
               Text(String(label))
                   .font(.caption2)
                   .rotationEffect(Angle(degrees: 270))
+                  .lineLimit(1)
           } else {
               Text(String(label))
                   .font(.caption)
                   .rotationEffect(Angle(degrees: 270))
+                  .lineLimit(1)
           }
         // https://stackoverflow.com/a/63746977/14414215
         //        .overlay(Rectangle().frame(width:20 , height: 1, alignment: .top).foregroundColor(zeroValueColor), alignment: .top)
