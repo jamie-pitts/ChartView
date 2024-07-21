@@ -68,13 +68,13 @@ public struct BarChartCell: View {
                           .font(.caption2)
                           .rotationEffect(Angle(degrees: 270))
                           .lineLimit(1)
-                          .frame(height: geometry.size.height * 0.2)
+                          .frame(height: geometry.size.height * 0.35)
                   } else {
                       Text(String(label))
                           .font(.caption)
                           .rotationEffect(Angle(degrees: 270))
                           .lineLimit(1)
-                          .frame(height: geometry.size.height * 0.2)
+                          .frame(height: geometry.size.height * 0.35)
                   }
                   // https://stackoverflow.com/a/63746977/14414215
                   //        .overlay(Rectangle().frame(width:20 , height: 1, alignment: .top).foregroundColor(zeroValueColor), alignment: .top)
