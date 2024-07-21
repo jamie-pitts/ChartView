@@ -41,16 +41,16 @@ public struct BarChartCell: View {
       GeometryReader { geometry in
           
           ZStack {
-              if (data.pointsTarget.count > 0) {
+              
                   VStack (spacing:0){
                       let valueTarget = data.pointsTarget.count > 0 ? data.normalisedPointsTarget[index] : 0
-                      
-                      BarChartCellShape(value: didCellAppear ? valueTarget : 0.0, cornerRadius: 2)
-                          .fill( gradientColor.linearGradient(from: .bottom, to: .top))
-                          .opacity(0.3)
-                      Text("")
+                      if (valueTarget > 0) {
+                          BarChartCellShape(value: didCellAppear ? valueTarget : 0.0, cornerRadius: 2)
+                              .fill( gradientColor.linearGradient(from: .bottom, to: .top))
+                              .opacity(0.3)
+                          Text("")
+                      }
                   }
-              }
               
               VStack(alignment: .center, spacing:0) {
                   BarChartCellShape(value: didCellAppear ? value : 0.0, cornerRadius: 2)
@@ -69,14 +69,14 @@ public struct BarChartCell: View {
                           .rotationEffect(Angle(degrees: 270))
                           .lineLimit(1)
                           .fixedSize(horizontal: true, vertical: true)
-                          .frame(height: geometry.size.height * 0.5)
+                          .frame(height: geometry.size.height * 0.3)
                   } else {
                       Text(String(label))
                           .font(.caption)
                           .rotationEffect(Angle(degrees: 270))
                           .lineLimit(1)
                           .fixedSize(horizontal: true, vertical: true)
-                          .frame(height: geometry.size.height * 0.5)
+                          .frame(height: geometry.size.height * 0.3)
                   }
                   // https://stackoverflow.com/a/63746977/14414215
                   //        .overlay(Rectangle().frame(width:20 , height: 1, alignment: .top).foregroundColor(zeroValueColor), alignment: .top)
