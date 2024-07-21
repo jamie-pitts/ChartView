@@ -208,12 +208,14 @@ public struct ChartLabel: View {
         .onReceive(self.chartValue.objectWillChange) { _ in
           let currentValue = self.chartValue.currentValue
           let currentTarget = self.chartValue.currentValueTarget
+          let currentString = self.chartValue.currentString
           
           let pctOfTarget = currentTarget > 0 ? "(" + String(Int((currentValue / currentTarget) * 100)) + "%)" : ""
           let targetValue = currentValue == 0 && currentTarget > 0 ? " (" + formattedValue(format, currentTarget) + ")" : " "
           let currentValueFmt = currentValue > 0 ? formattedValue(format, currentValue) + " " : ""
+          let label = currentString.isEmpty ? "" : currentString + ": "
           
-          self.textToDisplay = self.chartValue.interactionInProgress ? currentValueFmt + pctOfTarget + targetValue : self.title
+          self.textToDisplay = self.chartValue.interactionInProgress ? label + currentValueFmt + pctOfTarget + targetValue : self.title
           
           // print("chartLabel chartStr:\(currentString) currentValue:\(currentValue) currentTarget:\(currentTarget) currentValueFmt:\(currentValueFmt) pctOfTarget:\(pctOfTarget) targetValue:\(targetValue) FINAL:\(currentValueFmt + pctOfTarget + targetValue) format:\(format)")
         }

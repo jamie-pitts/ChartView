@@ -32,6 +32,7 @@ public struct PieChartRow: View {
                 chartValue.interactionInProgress = currentTouchedIndex != -1
                 guard currentTouchedIndex != -1 else { return }
                 chartValue.currentValue = slices[currentTouchedIndex].value
+                chartValue.currentString = chartData.values.indices.contains(currentTouchedIndex) ? chartData.values[currentTouchedIndex] : ""
             }
         }
     }
