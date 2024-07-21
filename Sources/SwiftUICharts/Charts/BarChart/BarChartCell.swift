@@ -38,47 +38,50 @@ public struct BarChartCell: View {
   /// Add a background layer to show progress against a prescribed target metric (if provided) with a a low opacity
   public var body: some View {
     let zeroValueColor: Color = colorScheme == .dark ? Color.white : Color.black
-
-    ZStack {
-        if (data.pointsTarget.count > 0) {
-            VStack (spacing:0){
-                let valueTarget = data.pointsTarget.count > 0 ? data.normalisedPointsTarget[index] : 0
-                
-                BarChartCellShape(value: didCellAppear ? valueTarget : 0.0, cornerRadius: 2)
-                    .fill( gradientColor.linearGradient(from: .bottom, to: .top))
-                    .opacity(0.3)
-                Text("")
-            }
-        }
-      
-        VStack(alignment: .center, spacing:0) {
-        BarChartCellShape(value: didCellAppear ? value : 0.0, cornerRadius: 2)
-          .fill(value == 0 ? LinearGradient(colors: [zeroValueColor], startPoint: .bottom, endPoint: .top) :  gradientColor.linearGradient(from: .bottom, to: .top))
-          .onAppear {
-            self.didCellAppear = true
+      GeometryReader { geometry in
+          
+          ZStack {
+              if (data.pointsTarget.count > 0) {
+                  VStack (spacing:0){
+                      let valueTarget = data.pointsTarget.count > 0 ? data.normalisedPointsTarget[index] : 0
+                      
+                      BarChartCellShape(value: didCellAppear ? valueTarget : 0.0, cornerRadius: 2)
+                          .fill( gradientColor.linearGradient(from: .bottom, to: .top))
+                          .opacity(0.3)
+                      Text("")
+                  }
+              }
+              
+              VStack(alignment: .center, spacing:0) {
+                  BarChartCellShape(value: didCellAppear ? value : 0.0, cornerRadius: 2)
+                      .fill(value == 0 ? LinearGradient(colors: [zeroValueColor], startPoint: .bottom, endPoint: .top) :  gradientColor.linearGradient(from: .bottom, to: .top))
+                      .onAppear {
+                          self.didCellAppear = true
+                      }
+                      .onDisappear {
+                          self.didCellAppear = false
+                      }
+                      .transition(.slide)
+                      .animation(Animation.spring().delay(self.touchLocation < 0 || !didCellAppear ? Double(self.index) * 0.04 : 0))
+                  if #available(macOS 11.0, *) {
+                      Text(String(label))
+                          .font(.caption2)
+                          .rotationEffect(Angle(degrees: 270))
+                          .lineLimit(1)
+                          .frame(height: geometry.size.height * 0.2)
+                  } else {
+                      Text(String(label))
+                          .font(.caption)
+                          .rotationEffect(Angle(degrees: 270))
+                          .lineLimit(1)
+                          .frame(height: geometry.size.height * 0.2)
+                  }
+                  // https://stackoverflow.com/a/63746977/14414215
+                  //        .overlay(Rectangle().frame(width:20 , height: 1, alignment: .top).foregroundColor(zeroValueColor), alignment: .top)
+              }
           }
-          .onDisappear {
-            self.didCellAppear = false
-          }
-          .transition(.slide)
-          .animation(Animation.spring().delay(self.touchLocation < 0 || !didCellAppear ? Double(self.index) * 0.04 : 0))
-          if #available(macOS 11.0, *) {
-              Text(String(label))
-                  .font(.caption2)
-                  .rotationEffect(Angle(degrees: 270))
-                  .lineLimit(1)
-                  .frame(height: 50)
-          } else {
-              Text(String(label))
-                  .font(.caption)
-                  .rotationEffect(Angle(degrees: 270))
-                  .lineLimit(1)
-                  .frame(height: 50)
-          }
-        // https://stackoverflow.com/a/63746977/14414215
-        //        .overlay(Rectangle().frame(width:20 , height: 1, alignment: .top).foregroundColor(zeroValueColor), alignment: .top)
+          
       }
-    }
   }
 }
 
